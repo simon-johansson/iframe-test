@@ -7,14 +7,24 @@
 </head>
 <body>
     <h1>Hello World</h1>
-    <button onclick='sendMessage()'>Send</button>
+    <button onclick='failFunction()'>Send</button>
 </body>
 <script>
 
-const sendMessage = function () {
-    console.log('Sending message to parent');
-    
-    window.parent.postMessage("Hello, parent!", "*");
+const sendMessage = function (data) {
+    console.log('Sending message to parent:', data);
+    window.parent.postMessage(data, "*");
 };
+
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+    sendMessage({
+        msg: msg,
+        url: url,
+        lineNo: lineNo,
+        columnNo: columnNo,
+        error: error
+    });
+  return false;
+}
 </script>
 </html>
