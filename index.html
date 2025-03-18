@@ -11,10 +11,12 @@
 </body>
 <script>
 
+// Send messages to the parent window
 const sendMessage = function (type, data) {
     window.parent.postMessage({type, data}, "*");
 };
 
+// Catch errors and send them to the parent window
 window.onerror = function (msg, url, lineNo, columnNo, error) {
     sendMessage("error", {
         msg: msg,
@@ -26,6 +28,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 }
 
+// Log messages to the parent window
 console.log2 = console.log;
 console.log = function() {
   var args = Array.prototype.splice.call(arguments, 0); 
@@ -35,7 +38,9 @@ console.log = function() {
   });
 };
 
-console.log("Hello", "World", {one: 1});
+setTimeout(function() {
+    console.log("Hello", "World", {one: 1});
+}, 3000);
 
 </script>
 </html>
