@@ -10,27 +10,6 @@
     <button onclick='sendMessage()'>Send</button>
 </body>
 <script>
-// Parent origin is passed as URL parameter
-// The child should verify that the parent origin is allowed to load it
-const documentParams = new URL(document.documentURI).searchParams;
-const parentOrigin = documentParams.get("parentOrigin");
-
-const messageSpan = document.getElementById("messageSpan");
-
-// Initalize the page once it is fully loaded
-document.addEventListener("DOMContentLoaded", (event) => {
-
-    // Listen for incoming messages
-    window.addEventListener("message", (event) => {
-        // Check the sender origin
-        if (event.origin !== parentOrigin) {
-            alert("Invalid message origin: " + event.origin + ", " + parentOrigin);
-            return;
-        }
-
-        messageSpan.innerHTML = event.data;
-    });
-});
 
 const sendMessage = function () {
     console.log('Sending message to parent');
