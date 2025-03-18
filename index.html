@@ -11,13 +11,12 @@
 </body>
 <script>
 
-const sendMessage = function (data) {
-    console.log('Sending message to parent:', data);
-    window.parent.postMessage(data, "*");
+const sendMessage = function (type, data) {
+    window.parent.postMessage({type, data}, "*");
 };
 
 window.onerror = function (msg, url, lineNo, columnNo, error) {
-    sendMessage({
+    sendMessage("error", {
         msg: msg,
         url: url,
         lineNo: lineNo,
@@ -26,5 +25,17 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
     });
   return false;
 }
+
+console.log2 = console.log;
+console.log = function() {
+  var args = Array.prototype.splice.call(arguments, 0); 
+  console.log2.apply(this, args); 
+  sendMessage("log", {
+    msg: args
+  });
+};
+
+console.log("Hello", "World", {one: 1});
+
 </script>
 </html>
