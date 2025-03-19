@@ -43,7 +43,10 @@ methods.forEach(function(method) {
 });
 
 setTimeout(function() {
-    console.log("Hello", "World", {one: 1});
+    console.log("log", {one: 1});
+    console.warn("warn", {one: 1});
+    console.error("error", {one: 1});
+    console.info("info", {one: 1});
 }, 3000);
 
 </script>
