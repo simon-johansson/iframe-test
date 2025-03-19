@@ -28,15 +28,19 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 }
 
+const methods = ["log", "warn", "error", "info"];   
+
 // Log messages to the parent window
-console.log2 = console.log;
-console.log = function() {
-  var args = Array.prototype.splice.call(arguments, 0); 
-  console.log2.apply(this, args); 
-  sendMessage("log", {
-    msg: args
-  });
-};
+methods.forEach(function(method) {
+    console[method + "original"] = console[method];
+    console[method] = function() {
+        var args = Array.prototype.splice.call(arguments, 0); 
+        console[method + "original"].apply(this, args); 
+        sendMessage("log", {
+            msg: args
+        });
+    };
+});
 
 setTimeout(function() {
     console.log("Hello", "World", {one: 1});
